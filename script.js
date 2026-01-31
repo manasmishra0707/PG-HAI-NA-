@@ -191,3 +191,40 @@ function clearPGForm() {
     document.getElementById("pgType").value = "Full";
     document.getElementById("pgImage").value = "";
 }
+// -----------------------------
+// Search PG (by city or name)
+// -----------------------------
+function searchPG() {
+    const searchValue = document
+        .getElementById("searchInput")
+        .value
+        .toLowerCase();
+
+    const container = document.getElementById("pgContainer");
+    container.innerHTML = "";
+
+    const filteredPGs = pgData.filter(pg =>
+        pg.name.toLowerCase().includes(searchValue) ||
+        pg.city.toLowerCase().includes(searchValue)
+    );
+
+    if (filteredPGs.length === 0) {
+        container.innerHTML = "<p>No PG found</p>";
+        show("pglist");
+        return;
+    }
+
+    show("pglist");
+
+    filteredPGs.forEach((pg, index) => {
+        container.innerHTML += `
+            <div class="card">
+                <img src="${pg.image}" alt="${pg.name}">
+                <h3>${pg.name}</h3>
+                <p>City: ${pg.city}</p>
+                <p>₹${pg.rent} / ${pg.type}</p>
+            </div>
+        `;
+    });
+}
+
